@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Vccorp Advertising Demo</string>
+
+    <string name="basic_one_no_scroll">Banner - No scroll</string>
+    <string name="basic_scrollview">Banner - ScrollView</string>
+    <string name="basic_listview">Banner - ListView</string>
+    <string name="basic_recyclerview">Banner - RecyclerView</string>
+
+    <string name="synthetic_form">Form</string>
+
+<!--    <string name="browser_form">Auto Fill</string>-->
+<!--    <string name="browser_game">Game</string>-->
+<!--    <string name="browser_ecommerce">Ecommerce</string>-->
+<!--    <string name="browser_livestream">Live Stream </string>-->
+
+    <string name="web_top">Top - 640x320</string>
+    <string name="web_billboard">Bill Board - 640x640</string>
+    <string name="web_medium">Medium - 300x250</string>
+    <string name="web_adx_native">Adx Native - 300x250</string>
+    <string name="web_adx_sponsor">Adx Sponsor - 180x200</string>
+    <string name="web_poster">Poster - 640x1000</string>
+    <string name="web_in_page">InPage - 640x1280 ( fullscreen )</string>
+    <string name="web_lotus_shop_chat">Lotus Shop Chat</string>
+    <string name="web_native">Native</string>
+    <string name="web_native_video">Native video</string>
+    <string name="web_native_livestream">Native Livestream Banner</string>
+    <string name="web_deeplink">Deeplink</string>
+    <string name="web_no_deeplink">No Deeplink</string>
+    <string name="web_true_view">True View</string>
+    <string name="web_window_open">Window Open</string>
+    <string name="web_ad_rotate">Ad Rotate</string>
+    <string name="web_inject_javascript">Inject JS</string>
+    <string name="web_open_game">Open Game</string>
+    <string name="web_welcome">Ad Welcome</string>
+    <string name="web_link_game">Link game</string>
+    <string name="web_web_game">Web game</string>
+
+    <string name="browser_form">Form</string>
+    <string name="browser_game">Game</string>
+    <string name="browser_ecommerce">TMDT</string>
+    <string name="browser_livestream">Live Stream</string>
+
+    <string name="form_ads_ids_input">Enter Ads ID</string>
+    <string name="notice_ads_id_empty">Please enter Ads ID</string>
+    <string name="notice_ads_id_not_exist">Ads ID non exist</string>
+    <string name="notice_duplicate_ads_id">Sorry, this Ads ID is duplicate!</string>
+
+   <string name="back_press">"Please back again to exit"</string>
+</resources>
