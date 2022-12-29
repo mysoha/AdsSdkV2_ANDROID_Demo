@@ -86,12 +86,6 @@ public class FormActivity extends BaseActivity implements DummyData {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function - Private
      ********************************************************************** */

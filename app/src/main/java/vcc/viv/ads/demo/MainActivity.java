@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements DummyData {
     private ActivityMainBinding binding;
     private Snackbar snackbar;
 
+    private boolean doubleBackToExitPressedOnce = false;
+
     private VccAds vccAds;
     private Handler handler;
 
@@ -90,6 +92,25 @@ public class MainActivity extends AppCompatActivity implements DummyData {
         if (vccAds != null) {
             vccAds.onVccAdsListener(TAG, null);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar.make(binding.getRoot(), "Click exit the app", Snackbar.LENGTH_SHORT).show();
+
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     /* **********************************************************************

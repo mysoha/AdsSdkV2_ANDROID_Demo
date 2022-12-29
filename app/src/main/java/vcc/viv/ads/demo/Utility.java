@@ -34,6 +34,7 @@ public class Utility {
     public static void browserDefault(Context context, String url) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
