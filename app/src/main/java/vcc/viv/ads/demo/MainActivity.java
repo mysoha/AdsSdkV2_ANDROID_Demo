@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -16,6 +17,7 @@ import vcc.viv.ads.demo.basic.BasicActivity;
 import vcc.viv.ads.demo.basic.ListActivity;
 import vcc.viv.ads.demo.basic.RecyclerActivity;
 import vcc.viv.ads.demo.basic.ScrollActivity;
+import vcc.viv.ads.demo.basic.viewpager.ViewPagerActivity;
 import vcc.viv.ads.demo.browser.LiveStreamActivity;
 import vcc.viv.ads.demo.databinding.ActivityMainBinding;
 import vcc.viv.ads.demo.fake.FakeActivity;
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements DummyData {
             case R.string.basic_recyclerview:
                 RecyclerActivity.starter(this);
                 break;
+            case R.string.basic_viewpager:
+                ViewPagerActivity.starter(this);
             default:
                 Log.d(TAG, "basicHandle invalid type");
                 break;
@@ -208,7 +212,13 @@ public class MainActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess() {
+
+        }
+
+        @Override
+        public void closeActivity(String s, String s1, String s2) {
+
         }
     }
 }

@@ -37,5 +37,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'vcc.viv.ads:vcc-sdk-ads:2.0.0-alpha-13'
+    implementation 'vcc.viv.ads:vcc-sdk-ads:2.0.0-alpha-md13'
 }

@@ -140,7 +140,13 @@ public class ScrollActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess() {
+
+        }
+
+        @Override
+        public void closeActivity(String s, String s1, String s2) {
+
         }
     }
 

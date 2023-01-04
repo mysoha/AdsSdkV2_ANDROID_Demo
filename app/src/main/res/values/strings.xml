@@ -5,6 +5,7 @@
     <string name="basic_scrollview">Banner - ScrollView</string>
     <string name="basic_listview">Banner - ListView</string>
     <string name="basic_recyclerview">Banner - RecyclerView</string>
+    <string name="basic_viewpager">Banner - View Pager</string>
 
     <string name="synthetic_form">Form</string>
 

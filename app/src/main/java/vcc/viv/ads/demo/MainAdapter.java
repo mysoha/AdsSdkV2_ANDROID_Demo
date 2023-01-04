@@ -94,7 +94,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             add(new Data(Type.BASIC, ViewType.FIRST, R.string.basic_one_no_scroll));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_scrollview));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_listview));
-            add(new Data(Type.BASIC, ViewType.END, R.string.basic_recyclerview));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_recyclerview));
+            add(new Data(Type.BASIC, ViewType.END, R.string.basic_viewpager));
 
             add(new Data(Type.SYNTHETIC, ViewType.NONE, -1));
             add(new Data(Type.SYNTHETIC, ViewType.ONLY_ONE, R.string.synthetic_form));

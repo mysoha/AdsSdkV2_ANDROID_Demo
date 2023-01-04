@@ -24,6 +24,7 @@
         <activity android:name=".basic.ScrollActivity" />
         <activity android:name=".basic.ListActivity" />
         <activity android:name=".basic.RecyclerActivity" />
+        <activity android:name=".basic.viewpager.ViewPagerActivity" />
 
         <activity android:name=".synthetic.FormActivity" />
         <activity android:name=".fake.FakeActivity" />
