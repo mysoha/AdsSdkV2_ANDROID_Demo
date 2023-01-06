@@ -1,10 +1,11 @@
-package vcc.viv.ads.demo.basic;
+package vcc.viv.ads.demo.mix;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,13 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.databinding.ActivityBasicListBinding;
+import vcc.viv.ads.demo.databinding.ActivityMixListBinding;
 import vcc.viv.ads.demo.databinding.ItemBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
@@ -36,14 +35,12 @@ public class ListActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityBasicListBinding binding;
+    private ActivityMixListBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
     private final List<String> adIds = AD_BANNER_IDS;
     private boolean isPrepared = false;
-
-
 
     /* **********************************************************************
      * Area : Starter
@@ -61,7 +58,7 @@ public class ListActivity extends BaseActivity implements DummyData {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = getLayoutInflater();
-        binding = ActivityBasicListBinding.inflate(inflater);
+        binding = ActivityMixListBinding.inflate(inflater);
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
@@ -92,12 +89,6 @@ public class ListActivity extends BaseActivity implements DummyData {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
@@ -105,7 +96,7 @@ public class ListActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -120,13 +111,13 @@ public class ListActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
-
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
-
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 
@@ -173,6 +164,8 @@ public class ListActivity extends BaseActivity implements DummyData {
             if (TextUtils.isEmpty(id)) {
                 title.setText("");
                 title.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
+
+                replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else {
                 title.setText(id);
                 title.setBackgroundColor(Color.parseColor("#88000000"));

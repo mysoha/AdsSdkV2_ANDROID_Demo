@@ -14,17 +14,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import vcc.viv.ads.business.vcc.presenter.activity.browser.BrowserActivity;
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
-import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.Utility;
 import vcc.viv.ads.demo.databinding.ActivityFakeBinding;
+import vcc.viv.ads.demo.utility.Utility;
 
 public class FakeActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
@@ -111,27 +107,21 @@ public class FakeActivity extends BaseActivity implements DummyData {
         super.onDestroy();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
     private void redirect(String url) {
-//        if (Utility.isDynamicLink(url)) {
-//            try {
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                startActivity(intent);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else {
+        if (Utility.isDynamicLink(url)) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
 //            BrowserActivity.starter(FakeActivity.this, null, "", "", "", url, 0);
-//        }
-        Utility.browserDefault(getApplication(),url);
+        }
+
     }
 
     /* **********************************************************************
@@ -156,7 +146,6 @@ public class FakeActivity extends BaseActivity implements DummyData {
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
 //            BrowserActivity.starter(FakeActivity.this, null, brandLogo, "", "", url, Integer.parseInt(landingType));
-            Utility.browserDefault(getApplication(),url);
         }
     }
 }

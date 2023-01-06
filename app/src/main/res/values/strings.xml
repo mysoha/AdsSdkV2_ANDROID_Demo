@@ -1,17 +1,22 @@
 <resources>
     <string name="app_name">Vccorp Advertising Demo</string>
 
-    <string name="basic_one_no_scroll">Banner - No scroll</string>
-    <string name="basic_scrollview">Banner - ScrollView</string>
-    <string name="basic_listview">Banner - ListView</string>
-    <string name="basic_recyclerview">Banner - RecyclerView</string>
+    <string name="basic_banner">Banner</string>
+    <string name="basic_in_page">InPage</string>
+    <string name="basic_popup">Popup</string>
+    <string name="basic_catfish">Catfish</string>
+
+    <string name="mix_scrollview">ScrollView</string>
+    <string name="mix_listview">ListView</string>
+    <string name="mix_recyclerview">RecyclerView</string>
+    <string name="mix_view_pager">ViewPager</string>
 
     <string name="synthetic_form">Form</string>
 
-<!--    <string name="browser_form">Auto Fill</string>-->
-<!--    <string name="browser_game">Game</string>-->
-<!--    <string name="browser_ecommerce">Ecommerce</string>-->
-<!--    <string name="browser_livestream">Live Stream </string>-->
+    <!--    <string name="browser_form">Auto Fill</string>-->
+    <!--    <string name="browser_game">Game</string>-->
+    <!--    <string name="browser_ecommerce">Ecommerce</string>-->
+    <!--    <string name="browser_livestream">Live Stream </string>-->
 
     <string name="web_top">Top - 640x320</string>
     <string name="web_billboard">Bill Board - 640x640</string>
@@ -45,5 +50,7 @@
     <string name="notice_ads_id_not_exist">Ads ID non exist</string>
     <string name="notice_duplicate_ads_id">Sorry, this Ads ID is duplicate!</string>
 
-   <string name="back_press">"Please back again to exit"</string>
+    <string name="back_press">"Please back again to exit"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

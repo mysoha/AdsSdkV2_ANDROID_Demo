@@ -91,10 +91,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private void createData() {
         data = new ArrayList<Data>() {{
             add(new Data(Type.BASIC, ViewType.NONE, -1));
-            add(new Data(Type.BASIC, ViewType.FIRST, R.string.basic_one_no_scroll));
-            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_scrollview));
-            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_listview));
-            add(new Data(Type.BASIC, ViewType.END, R.string.basic_recyclerview));
+            add(new Data(Type.BASIC, ViewType.FIRST, R.string.basic_banner));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_popup));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_in_page));
+            add(new Data(Type.BASIC, ViewType.END, R.string.basic_catfish));
+
+            add(new Data(Type.MIX, ViewType.NONE, -1));
+            add(new Data(Type.MIX, ViewType.FIRST, R.string.mix_scrollview));
+            add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_listview));
+            add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_recyclerview));
+            add(new Data(Type.MIX, ViewType.END, R.string.mix_view_pager));
 
             add(new Data(Type.SYNTHETIC, ViewType.NONE, -1));
             add(new Data(Type.SYNTHETIC, ViewType.ONLY_ONE, R.string.synthetic_form));
@@ -145,7 +151,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public enum Type {
-        NONE, BASIC, SYNTHETIC, ANDROID, WEB_FORMAT, CUSTOM_BROWSER
+        NONE, BASIC, MIX, SYNTHETIC, ANDROID, WEB_FORMAT, CUSTOM_BROWSER
     }
 
     public enum ViewType {

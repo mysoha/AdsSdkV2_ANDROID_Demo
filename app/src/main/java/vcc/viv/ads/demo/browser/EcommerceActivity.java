@@ -3,18 +3,14 @@ package vcc.viv.ads.demo.browser;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
-import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.basic.BasicActivity;
 import vcc.viv.ads.demo.databinding.ActivityCustomBrowserBinding;
 import vcc.viv.ads.transport.VccAds;
@@ -70,12 +66,6 @@ public class EcommerceActivity extends BaseActivity implements DummyData {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
@@ -83,7 +73,7 @@ public class EcommerceActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -98,12 +88,13 @@ public class EcommerceActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
-
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 }

@@ -3,16 +3,15 @@ package vcc.viv.ads.demo.basic;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
-import vcc.viv.ads.demo.databinding.ActivityBasicBannerBinding;
+import vcc.viv.ads.demo.databinding.ActivityBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
@@ -21,23 +20,24 @@ public class BasicActivity extends BaseActivity implements DummyData {
      * Area : Variable - Const
      ********************************************************************** */
     private final String TAG = BasicActivity.class.getSimpleName();
+    private static final String KEY_ID = "key:ad_id";
 
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityBasicBannerBinding binding;
+    private ActivityBasicBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
     private final List<String> adIds = new ArrayList<String>() {{
-        add(AD_BANNER_ID);
     }};
 
     /* **********************************************************************
      * Area : Starter
      ********************************************************************** */
-    public static void starter(Context context) {
+    public static void starter(Context context, String id) {
         Intent intent = new Intent(context, BasicActivity.class);
+        intent.putExtra(KEY_ID, id);
         context.startActivity(intent);
     }
 
@@ -48,13 +48,17 @@ public class BasicActivity extends BaseActivity implements DummyData {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityBasicBannerBinding.inflate(getLayoutInflater());
+        binding = ActivityBasicBinding.inflate(getLayoutInflater());
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
+        Bundle bundle = getIntent().getExtras();
+        String id = bundle.getString(KEY_ID, AD_BANNER_ID);
+        adIds.add(id);
+
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.advertising, null);
+        vccAds.adSetupView(TAG, binding.root, null);
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -73,7 +77,7 @@ public class BasicActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -88,11 +92,13 @@ public class BasicActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 }

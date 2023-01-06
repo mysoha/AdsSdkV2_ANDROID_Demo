@@ -1,23 +1,22 @@
-package vcc.viv.ads.demo.basic;
+package vcc.viv.ads.demo.mix;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.Utility;
-import vcc.viv.ads.demo.databinding.ActivityBasicScrollBinding;
+import vcc.viv.ads.demo.databinding.ActivityMixScrollBinding;
 import vcc.viv.ads.demo.databinding.ItemBasicBinding;
+import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
@@ -31,7 +30,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityBasicScrollBinding binding;
+    private ActivityMixScrollBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
@@ -53,7 +52,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = getLayoutInflater();
-        binding = ActivityBasicScrollBinding.inflate(inflater);
+        binding = ActivityMixScrollBinding.inflate(inflater);
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
@@ -71,6 +70,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
                 binding.advertising.addView(itemBinding.getRoot(), layoutParams);
 
                 for (int j = 0; j < 7; j++) {
+                    addLineDivider();
                     addFakeView();
                 }
             } catch (Exception e) {
@@ -92,18 +92,18 @@ public class ScrollActivity extends BaseActivity implements DummyData {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
+    private void addLineDivider() {
+        LinearLayout.LayoutParams viewLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Utility.dpToPx(this, 1));
+        View fake = new View(this);
+        fake.setBackgroundColor(getResources().getColor(R.color.white));
+        binding.advertising.addView(fake, viewLp);
+    }
+
     private void addFakeView() {
         LinearLayout.LayoutParams viewLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Utility.dpToPx(this, 64));
-        viewLp.topMargin = (int) Utility.dpToPx(this, 1);
         View fake = new View(this);
         fake.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
         binding.advertising.addView(fake, viewLp);
@@ -112,7 +112,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -136,11 +136,13 @@ public class ScrollActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 

@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,8 @@ import java.util.List;
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.Utility;
 import vcc.viv.ads.demo.databinding.ActivityFormBinding;
+import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
@@ -39,7 +40,7 @@ public class FormActivity extends BaseActivity implements DummyData {
      ********************************************************************** */
     protected static final String TAG = FormActivity.class.getSimpleName();
     protected static final String requestId = "1";
-    private static final String[] suggestAdsId = {"13450", "13462", "5225"};
+    private static final String[] suggestAdsId = AD_BANNER_IDS.toArray(new String[0]);
 
     /* **********************************************************************
      * Area : Variable
@@ -86,6 +87,12 @@ public class FormActivity extends BaseActivity implements DummyData {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
+    }
+
     /* **********************************************************************
      * Area : Function - Private
      ********************************************************************** */
@@ -103,7 +110,6 @@ public class FormActivity extends BaseActivity implements DummyData {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
             }
         });
 
@@ -113,7 +119,6 @@ public class FormActivity extends BaseActivity implements DummyData {
                 binding.middleLayout.setVisibility(View.VISIBLE);
             }
         });
-
         binding.middleLayout.setOnClickListener(view -> {
             if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -217,7 +222,7 @@ public class FormActivity extends BaseActivity implements DummyData {
         List<String> adsIdList = tagAdapter.getData();
         adapter.setData(adsIdList);
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.root, null);
+        vccAds.adSetupView(TAG, binding.constraintLayout, null);
         vccAds.adRequest(TAG, requestId, adsIdList);
     }
 
@@ -245,7 +250,7 @@ public class FormActivity extends BaseActivity implements DummyData {
         }
     }
 
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -259,12 +264,13 @@ public class FormActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
-            Snackbar.make(binding.root, getResources().getString(R.string.notice_ads_id_not_exist), BaseTransientBottomBar.LENGTH_SHORT).show();
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 }

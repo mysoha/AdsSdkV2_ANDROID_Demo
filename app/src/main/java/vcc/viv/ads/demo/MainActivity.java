@@ -6,24 +6,24 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import vcc.viv.ads.demo.basic.BasicActivity;
-import vcc.viv.ads.demo.basic.ListActivity;
-import vcc.viv.ads.demo.basic.RecyclerActivity;
-import vcc.viv.ads.demo.basic.ScrollActivity;
-import vcc.viv.ads.demo.browser.LiveStreamActivity;
 import vcc.viv.ads.demo.databinding.ActivityMainBinding;
 import vcc.viv.ads.demo.fake.FakeActivity;
+import vcc.viv.ads.demo.mix.ListActivity;
+import vcc.viv.ads.demo.mix.RecyclerActivity;
+import vcc.viv.ads.demo.mix.ScrollActivity;
+import vcc.viv.ads.demo.mix.viewpager.ViewPagerActivity;
 import vcc.viv.ads.demo.synthetic.FormActivity;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
+import vcc.viv.ads.transport.lifecycle.VccLifeCycleObserver;
 
-public class MainActivity extends AppCompatActivity implements DummyData {
+public class MainActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
+    private boolean doubleBackToExitPressedOnce = false;
+
     private ActivityMainBinding binding;
     private Snackbar snackbar;
-
-    private boolean doubleBackToExitPressedOnce = false;
 
     private VccAds vccAds;
     private Handler handler;
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements DummyData {
                 case BASIC:
                     basicHandle(data);
                     break;
+                case MIX:
+                    basicMix(data);
+                    break;
                 case SYNTHETIC:
                     syntheticHandle(data);
                     break;
@@ -87,14 +90,6 @@ public class MainActivity extends AppCompatActivity implements DummyData {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (vccAds != null) {
-            vccAds.onVccAdsListener(TAG, null);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
@@ -102,40 +97,64 @@ public class MainActivity extends AppCompatActivity implements DummyData {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Snackbar.make(binding.getRoot(), "Click exit the app", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "click to back", Snackbar.LENGTH_SHORT).show();
+        handler.postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (vccAds != null) {
+            vccAds.onVccAdsListener(TAG, null);
+        }
     }
 
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
     private void initSdk() {
+        VccLifeCycleObserver observer = ((MyApplication) getApplication()).getObserver();
+
         vccAds = VccAds.getInstance();
+        vccAds.setLifeCycleObserver(observer);
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
         vccAds.init(this, APP_ID, APP_NAME, APP_VERSION);
     }
 
     private void basicHandle(MainAdapter.Data data) {
         switch (data.info) {
-            case R.string.basic_one_no_scroll:
-                BasicActivity.starter(this);
+            case R.string.basic_banner:
+                BasicActivity.starter(this, DummyData.AD_BANNER_ID);
                 break;
-            case R.string.basic_scrollview:
+            case R.string.basic_popup:
+                BasicActivity.starter(this, DummyData.AD_POPUP_ID);
+                break;
+            case R.string.basic_in_page:
+                BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
+                break;
+            case R.string.basic_catfish:
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+//                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
+                break;
+            default:
+                Log.d(TAG, "basicHandle invalid type");
+                break;
+        }
+    }
+
+    private void basicMix(MainAdapter.Data data) {
+        switch (data.info) {
+            case R.string.mix_scrollview:
                 ScrollActivity.starter(this);
                 break;
-            case R.string.basic_listview:
+            case R.string.mix_listview:
                 ListActivity.starter(this);
                 break;
-            case R.string.basic_recyclerview:
+            case R.string.mix_recyclerview:
                 RecyclerActivity.starter(this);
                 break;
+            case R.string.mix_view_pager:
+                ViewPagerActivity.starter(this);
             default:
                 Log.d(TAG, "basicHandle invalid type");
                 break;
@@ -150,7 +169,8 @@ public class MainActivity extends AppCompatActivity implements DummyData {
                 Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
                 return;
             case R.string.browser_livestream:
-                LiveStreamActivity.starter(this);
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+//                LiveStreamActivity.starter(this);
                 break;
             default:
                 Log.d(TAG, "basicHandle invalid type");
@@ -184,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
             Log.i(TAG, "init prepare");
@@ -204,11 +224,13 @@ public class MainActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 }

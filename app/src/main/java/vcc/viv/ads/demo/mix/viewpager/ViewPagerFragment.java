@@ -1,81 +1,72 @@
-package vcc.viv.ads.demo.browser;
+package vcc.viv.ads.demo.mix.viewpager;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
-import vcc.viv.ads.demo.basic.BasicActivity;
-import vcc.viv.ads.demo.databinding.ActivityCustomBrowserBinding;
+import vcc.viv.ads.demo.databinding.ItemMixViewpagerBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class AutoFillActivity extends BaseActivity implements DummyData {
+public class ViewPagerFragment extends Fragment {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
-    private final String TAG = BasicActivity.class.getSimpleName();
+    private final String TAG = ViewPagerFragment.class.getSimpleName();
 
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityCustomBrowserBinding binding;
-
+    private ItemMixViewpagerBinding binding;
+    private int id = 0;
+    private String requestId = "1";
     private VccAds vccAds;
-    private final String requestId = "1";
     private final List<String> adIds = new ArrayList<String>() {{
-        add(AD_BANNER_ID);
+        add(DummyData.AD_BANNER_ID);
+        add(DummyData.AD_POPUP_ID);
     }};
 
     /* **********************************************************************
-     * Area : Starter
+     * Area : Function Override
      ********************************************************************** */
-    public static void starter(Context context) {
-        Intent intent = new Intent(context, AutoFillActivity.class);
-        context.startActivity(intent);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = ItemMixViewpagerBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
-    /* **********************************************************************
-     * Area : Function - Override
-     ********************************************************************** */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        binding = ActivityCustomBrowserBinding.inflate(getLayoutInflater());
-        ViewGroup view = (ViewGroup) binding.getRoot();
-        setContentView(view);
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String tag = TAG + "_" + id;
         vccAds = VccAds.getInstance();
-        vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, view, null);
-        vccAds.adRequest(TAG, requestId, adIds);
+        vccAds.adSetupView(tag, binding.root, null);
+        vccAds.onVccAdsListener(tag, new VccAdsHandler());
+        vccAds.adRequest(tag, requestId, adIds);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (vccAds != null) {
-            vccAds.onVccAdsListener(TAG, null);
-        }
+    public void createTag(int id) {
+        this.id = id;
     }
 
     /* **********************************************************************
-     * Area : Function
-     ********************************************************************** */
-
-    /* **********************************************************************
-     * Area : Inner Class
+     * Area : Inner class
      ********************************************************************** */
     private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
+
         }
 
         @Override
@@ -84,7 +75,8 @@ public class AutoFillActivity extends BaseActivity implements DummyData {
 
         @Override
         public void adStorePrepared() {
-            vccAds.adAdd(binding.advertising, TAG, requestId, adIds.get(0));
+            String tag = TAG + "_" + id;
+            vccAds.adAdd(binding.root, tag, requestId, adIds.get(0));
         }
 
         @Override

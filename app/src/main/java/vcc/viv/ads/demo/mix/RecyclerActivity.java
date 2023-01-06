@@ -1,20 +1,21 @@
-package vcc.viv.ads.demo.basic;
+package vcc.viv.ads.demo.mix;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,7 @@ import java.util.List;
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.Utility;
-import vcc.viv.ads.demo.databinding.ActivityBasicRecyclerBinding;
+import vcc.viv.ads.demo.databinding.ActivityMixRecyclerBinding;
 import vcc.viv.ads.demo.databinding.ItemBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
@@ -38,7 +38,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityBasicRecyclerBinding binding;
+    private ActivityMixRecyclerBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
@@ -61,7 +61,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = getLayoutInflater();
-        binding = ActivityBasicRecyclerBinding.inflate(inflater);
+        binding = ActivityMixRecyclerBinding.inflate(inflater);
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
@@ -74,8 +74,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        int space = (int) Utility.dpToPx(this, 1);
-        VerticalSpaceItemDecoration divider = new VerticalSpaceItemDecoration(space);
+        VerticalSpaceItemDecoration divider = new VerticalSpaceItemDecoration();
         Adapter adapter = new Adapter(dummyData);
         binding.advertising.setLayoutManager(layoutManager);
         binding.advertising.setAdapter(adapter);
@@ -97,12 +96,6 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Snackbar.make(binding.getRoot(), R.string.back_press, Snackbar.LENGTH_SHORT).show();
-    }
-
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
@@ -110,7 +103,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler implements VccAdsListener {
+    private class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }
@@ -125,25 +118,40 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail() {
+        public void adRequestFail(String tag, String request, String adId) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
         }
 
         @Override
-        public void closeActivity() {
-
+        public void adRequestSuccess(String tag, String request, String adId, String adType) {
+            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 
     private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private final int verticalSpaceHeight;
+        private Drawable divider;
 
-        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
+        public VerticalSpaceItemDecoration() {
+            divider = ContextCompat.getDrawable(RecyclerActivity.this, R.drawable.line_divider);
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.bottom = verticalSpaceHeight;
+        public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + divider.getIntrinsicHeight();
+
+                divider.setBounds(left, top, right, bottom);
+                divider.draw(c);
+            }
         }
     }
 
@@ -179,12 +187,14 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
             if (TextUtils.isEmpty(id)) {
                 holder.binding.title.setVisibility(View.VISIBLE);
                 holder.binding.title.setText("");
+
                 holder.binding.title.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
+                holder.binding.replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else {
                 holder.binding.title.setVisibility(View.VISIBLE);
                 holder.binding.title.setText(id);
-                holder.binding.title.setBackgroundColor(Color.parseColor("#88000000"));
 
+                holder.binding.title.setBackgroundColor(Color.parseColor("#88000000"));
                 vccAds.adAdd(holder.binding.replace, TAG, requestId, id, position);
             }
         }
