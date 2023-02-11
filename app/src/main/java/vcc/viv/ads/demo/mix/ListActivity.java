@@ -65,7 +65,7 @@ public class ListActivity extends BaseActivity implements DummyData {
         List<String> dummyData = new ArrayList<>();
         for (int i = 0; i < adIds.size(); i++) {
             dummyData.add(adIds.get(i));
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < FAKE_ITEM_VIEW_COUNT; j++) {
                 dummyData.add(null);
             }
         }
@@ -77,7 +77,7 @@ public class ListActivity extends BaseActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, view, scroll);
+        vccAds.adSetupView(TAG, binding.root, scroll);
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -117,12 +117,12 @@ public class ListActivity extends BaseActivity implements DummyData {
 
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
-            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+            Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 
     private class Adapter extends BaseAdapter {
-        private List<String> ids;
+        private final List<String> ids;
 
         public Adapter(List<String> ids) {
             this.ids = ids;
@@ -163,7 +163,7 @@ public class ListActivity extends BaseActivity implements DummyData {
             replace.removeAllViews();
             if (TextUtils.isEmpty(id)) {
                 title.setText("");
-                title.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
+                title.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
 
                 replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else {
@@ -177,7 +177,7 @@ public class ListActivity extends BaseActivity implements DummyData {
         }
     }
 
-    private class MyScroll extends VccScrollHandler {
+    private static class MyScroll extends VccScrollHandler {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);

@@ -69,7 +69,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
                 itemBinding.title.setText(id);
                 binding.advertising.addView(itemBinding.getRoot(), layoutParams);
 
-                for (int j = 0; j < 7; j++) {
+                for (int j = 0; j < FAKE_ITEM_VIEW_COUNT; j++) {
                     addLineDivider();
                     addFakeView();
                 }
@@ -80,7 +80,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, view, scroll);
+        vccAds.adSetupView(TAG, binding.root, scroll);
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -98,14 +98,14 @@ public class ScrollActivity extends BaseActivity implements DummyData {
     private void addLineDivider() {
         LinearLayout.LayoutParams viewLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Utility.dpToPx(this, 1));
         View fake = new View(this);
-        fake.setBackgroundColor(getResources().getColor(R.color.white));
+        fake.setBackgroundColor(getResources().getColor(R.color.white, getTheme()));
         binding.advertising.addView(fake, viewLp);
     }
 
     private void addFakeView() {
         LinearLayout.LayoutParams viewLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) Utility.dpToPx(this, 64));
         View fake = new View(this);
-        fake.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
+        fake.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
         binding.advertising.addView(fake, viewLp);
     }
 
@@ -142,11 +142,11 @@ public class ScrollActivity extends BaseActivity implements DummyData {
 
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
-            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+            Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 
-    private class MyScroll extends VccScrollHandler {
+    private static class MyScroll extends VccScrollHandler {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);

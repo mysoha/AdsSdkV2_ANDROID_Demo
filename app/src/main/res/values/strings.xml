@@ -5,6 +5,7 @@
     <string name="basic_in_page">InPage</string>
     <string name="basic_popup">Popup</string>
     <string name="basic_catfish">Catfish</string>
+    <string name="basic_welcome">Welcome</string>
 
     <string name="mix_scrollview">ScrollView</string>
     <string name="mix_listview">ListView</string>
@@ -44,6 +45,7 @@
     <string name="browser_game">Game</string>
     <string name="browser_ecommerce">TMDT</string>
     <string name="browser_livestream">Live Stream</string>
+    <string name="browser_execjs">Exec Js</string>
 
     <string name="form_ads_ids_input">Enter Ads ID</string>
     <string name="notice_ads_id_empty">Please enter Ads ID</string>

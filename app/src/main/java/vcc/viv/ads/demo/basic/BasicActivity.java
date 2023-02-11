@@ -6,16 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class BasicActivity extends BaseActivity implements DummyData {
+public class BasicActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -99,6 +100,13 @@ public class BasicActivity extends BaseActivity implements DummyData {
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
             Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+        }
+
+        @Override
+        public void closeAd(String tag, String requestId, String adId) {
+            super.closeAd(tag, requestId, adId);
+            Log.d(TAG, String.format("AD CLOSE - Success : requestId[%s] - adId[%s] - tag[%s]", requestId, adId, tag));
+            if("WelcomeActivity".equals(tag)) onBackPressed();
         }
     }
 }

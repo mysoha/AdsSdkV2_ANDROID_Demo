@@ -20,9 +20,24 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "BANNER", "true"
+            buildConfigField "boolean", "POPUP", "true"
+            buildConfigField "boolean", "INPAGE", "true"
+            buildConfigField "boolean", "CATFISH", "true"
+            buildConfigField "boolean", "WELCOME", "true"
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "BANNER", "true"
+            buildConfigField "boolean", "POPUP", "true"
+            buildConfigField "boolean", "INPAGE", "false"
+            buildConfigField "boolean", "CATFISH", "false"
+            buildConfigField "boolean", "WELCOME", "false"
         }
     }
     compileOptions {
@@ -37,6 +52,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation 'vcc.viv.ads:vcc-sdk-ads:2.0.0-alpha-md13-11'
+    implementation 'vcc.viv.ads:vcc-sdk-ads:2.0.0-alpha'
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 }

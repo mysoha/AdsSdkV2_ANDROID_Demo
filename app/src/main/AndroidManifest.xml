@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".basic.BasicActivity" />
+        <activity android:name=".basic.BasicActivity"/>
         <activity android:name=".mix.ScrollActivity" />
         <activity android:name=".mix.ListActivity" />
         <activity android:name=".mix.RecyclerActivity" />

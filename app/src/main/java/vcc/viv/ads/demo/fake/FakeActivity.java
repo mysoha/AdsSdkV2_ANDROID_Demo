@@ -14,15 +14,18 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityFakeBinding;
 import vcc.viv.ads.demo.utility.Utility;
+import vcc.viv.ads.transport.VccAds;
+import vcc.viv.ads.transport.VccAdsListener;
 
-public class FakeActivity extends BaseActivity implements DummyData {
+public class FakeActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -34,6 +37,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
      * Area : Variable
      ********************************************************************** */
     private ActivityFakeBinding binding;
+    private VccAds vccAds;
 
     /* **********************************************************************
      * Area : Starter
@@ -54,6 +58,29 @@ public class FakeActivity extends BaseActivity implements DummyData {
         binding = ActivityFakeBinding.inflate(getLayoutInflater());
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
+
+        vccAds = VccAds.getInstance();
+        vccAds.onVccAdsListener(TAG, new VccAdsListener() {
+            @Override
+            public void initSuccess() {
+            }
+
+            @Override
+            public void adStorePrepared() {
+
+            }
+
+            @Override
+            public void adRequestFail(String s, String s1, String s2) {
+
+            }
+
+            @Override
+            public void adRequestSuccess(String s, String s1, String s2, String s3) {
+
+            }
+        });
+        vccAds.adSetupView(TAG,binding.advertising,null);
 
         Bundle bundle = getIntent().getExtras();
         String format = bundle.getString(KEY_FORMAT, "");
@@ -119,7 +146,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
                 e.printStackTrace();
             }
         } else {
-//            BrowserActivity.starter(FakeActivity.this, null, "", "", "", url, 0);
+            vccAds.openBrowserByUser(url, 1,TAG);
         }
 
     }
@@ -146,6 +173,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
 //            BrowserActivity.starter(FakeActivity.this, null, brandLogo, "", "", url, Integer.parseInt(landingType));
+            vccAds.openBrowserByUser(url, Integer.parseInt(landingType),brandLogo+TAG);
         }
     }
 }

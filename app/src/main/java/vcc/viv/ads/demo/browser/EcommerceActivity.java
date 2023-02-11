@@ -6,17 +6,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.basic.BasicActivity;
 import vcc.viv.ads.demo.databinding.ActivityCustomBrowserBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class EcommerceActivity extends BaseActivity implements DummyData {
+public class EcommerceActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */

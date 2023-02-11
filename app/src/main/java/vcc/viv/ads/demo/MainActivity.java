@@ -106,6 +106,7 @@ public class MainActivity extends BaseActivity implements DummyData {
         super.onDestroy();
         if (vccAds != null) {
             vccAds.onVccAdsListener(TAG, null);
+            vccAds.destroy();
         }
     }
 
@@ -124,17 +125,38 @@ public class MainActivity extends BaseActivity implements DummyData {
     private void basicHandle(MainAdapter.Data data) {
         switch (data.info) {
             case R.string.basic_banner:
+                if(!BuildConfig.BANNER){
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                }
                 BasicActivity.starter(this, DummyData.AD_BANNER_ID);
                 break;
             case R.string.basic_popup:
+                if(!BuildConfig.POPUP){
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
                 BasicActivity.starter(this, DummyData.AD_POPUP_ID);
                 break;
             case R.string.basic_in_page:
+                if(!BuildConfig.INPAGE){
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
                 BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
                 break;
             case R.string.basic_catfish:
-                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-//                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
+                if(!BuildConfig.CATFISH){
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
+                break;
+            case R.string.basic_welcome:
+                if(!BuildConfig.WELCOME){
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
                 break;
             default:
                 Log.d(TAG, "basicHandle invalid type");
@@ -216,6 +238,7 @@ public class MainActivity extends BaseActivity implements DummyData {
         public void initSuccess() {
             Log.i(TAG, "init success");
             vccAds.setDeviceId(DEVICE_ID);
+            vccAds.initWelcome(R.drawable.ic_logo, R.drawable.ic_title_logo, 3000, 1000, true);
             snackbar.dismiss();
         }
 

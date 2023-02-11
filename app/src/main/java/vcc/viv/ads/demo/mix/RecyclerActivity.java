@@ -68,7 +68,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         List<String> dummyData = new ArrayList<>();
         for (int i = 0; i < adIds.size(); i++) {
             dummyData.add(adIds.get(i));
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < FAKE_ITEM_VIEW_COUNT; j++) {
                 dummyData.add(null);
             }
         }
@@ -124,12 +124,12 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
 
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
-            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+            Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
     }
 
     private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private Drawable divider;
+        private final Drawable divider;
 
         public VerticalSpaceItemDecoration() {
             divider = ContextCompat.getDrawable(RecyclerActivity.this, R.drawable.line_divider);
@@ -156,7 +156,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
     }
 
     private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-        private List<String> ids;
+        private final List<String> ids;
 
         public Adapter(List<String> ids) {
             this.ids = ids;
@@ -188,7 +188,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
                 holder.binding.title.setVisibility(View.VISIBLE);
                 holder.binding.title.setText("");
 
-                holder.binding.title.setBackgroundColor(getResources().getColor(R.color.secondaryColor));
+                holder.binding.title.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
                 holder.binding.replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else {
                 holder.binding.title.setVisibility(View.VISIBLE);
@@ -200,7 +200,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private ItemBasicBinding binding;
+            private final ItemBasicBinding binding;
 
             public ViewHolder(ItemBasicBinding binding) {
                 super(binding.getRoot());
@@ -209,7 +209,7 @@ public class RecyclerActivity extends BaseActivity implements DummyData {
         }
     }
 
-    private class MyScroll extends VccScrollHandler {
+    private static class MyScroll extends VccScrollHandler {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);

@@ -9,10 +9,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utility {
+    /* **********************************************************************
+     * Area : Variable
+     ********************************************************************** */
     private final static String REGEX = "/game/";
     private final static String INVALID_REGEX = "[^a-zA-Z0-9\\\\-]";
     private final static String REPLACE = "-";
 
+    /* **********************************************************************
+     * Area : Function - convert
+     ********************************************************************** */
     public static float dpToPx(Context context, float dp) {
         Resources r = context.getResources();
         float px = TypedValue.applyDimension(
@@ -23,6 +29,9 @@ public class Utility {
         return px;
     }
 
+    /* **********************************************************************
+     * Area : Function - Dynamic
+     ********************************************************************** */
     public static boolean isDynamicLink(String url) {
         String[] params = url.split("\\?");
         for (String param : params) {
@@ -54,6 +63,9 @@ public class Utility {
         return String.format("%s%s?l=%s", host, gameRegex, url);
     }
 
+    /* **********************************************************************
+     * Area : Function - browser
+     ********************************************************************** */
     public static void browserDefault(Context context, String url) {
         try {
             android.content.Intent defaultBrowser = new android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));

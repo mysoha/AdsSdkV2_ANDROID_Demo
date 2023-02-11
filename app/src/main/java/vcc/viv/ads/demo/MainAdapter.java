@@ -94,6 +94,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             add(new Data(Type.BASIC, ViewType.FIRST, R.string.basic_banner));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_popup));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_in_page));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_welcome));
             add(new Data(Type.BASIC, ViewType.END, R.string.basic_catfish));
 
             add(new Data(Type.MIX, ViewType.NONE, -1));
@@ -136,8 +137,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             add(new Data(Type.WEB_FORMAT, ViewType.MIDDLE, R.string.browser_form, "custombrowser_signup"));
             add(new Data(Type.WEB_FORMAT, ViewType.MIDDLE, R.string.browser_game, "custombrowser_game"));
             add(new Data(Type.WEB_FORMAT, ViewType.MIDDLE, R.string.browser_ecommerce, "custombrowser_tmdt"));
+            add(new Data(Type.WEB_FORMAT, ViewType.MIDDLE, R.string.browser_execjs, "custombrowser_execjs"));
             add(new Data(Type.WEB_FORMAT, ViewType.END, R.string.web_web_game, "webgame"));
-
 
             add(new Data(Type.NONE, ViewType.NONE, -1));
         }};
