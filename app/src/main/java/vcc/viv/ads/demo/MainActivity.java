@@ -177,6 +177,8 @@ public class MainActivity extends BaseActivity implements DummyData {
                 break;
             case R.string.mix_view_pager:
                 ViewPagerActivity.starter(this);
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                break;
             default:
                 Log.d(TAG, "basicHandle invalid type");
                 break;

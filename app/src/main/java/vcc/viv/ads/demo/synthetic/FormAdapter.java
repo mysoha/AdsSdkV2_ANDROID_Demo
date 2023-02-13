@@ -18,8 +18,8 @@ public class FormAdapter extends RecyclerView.Adapter<FormAdapter.ViewHolder> {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private List<String> adsInfo;
-    private VccAds vccAds;
+    private final List<String> adsInfo;
+    private final VccAds vccAds;
 
     /* **********************************************************************
      * Area : Constructor

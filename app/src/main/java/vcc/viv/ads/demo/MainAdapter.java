@@ -28,7 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
      * Area : Variable
      ********************************************************************** */
     private List<Data> data;
-    private Callback callback;
+    private final Callback callback;
 
     /* **********************************************************************
      * Area : Constructor
@@ -192,7 +192,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
      * Area : Inner Class - View Holder
      ********************************************************************** */
     public class OneViewHolder extends ViewHolder {
-        private ItemMainOneBinding binding;
+        private final ItemMainOneBinding binding;
 
         public OneViewHolder(ItemMainOneBinding binding) {
             super(binding.getRoot());
@@ -207,7 +207,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class FirstViewHolder extends ViewHolder {
-        private ItemMainFirstBinding binding;
+        private final ItemMainFirstBinding binding;
 
         public FirstViewHolder(ItemMainFirstBinding binding) {
             super(binding.getRoot());
@@ -222,7 +222,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class MiddleViewHolder extends ViewHolder {
-        private ItemMainMiddleBinding binding;
+        private final ItemMainMiddleBinding binding;
 
         public MiddleViewHolder(ItemMainMiddleBinding binding) {
             super(binding.getRoot());
@@ -237,7 +237,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class EndViewHolder extends ViewHolder {
-        private ItemMainEndBinding binding;
+        private final ItemMainEndBinding binding;
 
         public EndViewHolder(ItemMainEndBinding binding) {
             super(binding.getRoot());
@@ -252,7 +252,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class NoneViewHolder extends ViewHolder {
-        private ItemMainNoneBinding binding;
+        private final ItemMainNoneBinding binding;
 
         public NoneViewHolder(ItemMainNoneBinding binding) {
             super(binding.getRoot());

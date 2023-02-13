@@ -29,7 +29,7 @@ public class ViewPagerFragment extends Fragment {
      ********************************************************************** */
     private ItemMixViewpagerBinding binding;
     private int id = 0;
-    private String requestId = "1";
+    private final String requestId = "1";
     private VccAds vccAds;
     private final List<String> adIds = new ArrayList<String>() {{
         add(DummyData.AD_BANNER_ID);

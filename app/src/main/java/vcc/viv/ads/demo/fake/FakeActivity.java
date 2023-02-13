@@ -146,7 +146,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
                 e.printStackTrace();
             }
         } else {
-            vccAds.openBrowserByUser(url, 1,TAG);
+            vccAds.openBrowser(url, 0,"");
         }
 
     }
@@ -173,7 +173,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
 //            BrowserActivity.starter(FakeActivity.this, null, brandLogo, "", "", url, Integer.parseInt(landingType));
-            vccAds.openBrowserByUser(url, Integer.parseInt(landingType),brandLogo+TAG);
+            vccAds.openBrowser(url, Integer.parseInt(landingType),brandLogo);
         }
     }
 }

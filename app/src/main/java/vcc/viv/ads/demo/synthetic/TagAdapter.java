@@ -16,7 +16,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private List<String> data;
+    private final List<String> data;
 
     /* **********************************************************************
      * Area : Constructor
