@@ -125,38 +125,19 @@ public class MainActivity extends BaseActivity implements DummyData {
     private void basicHandle(MainAdapter.Data data) {
         switch (data.info) {
             case R.string.basic_banner:
-                if(!BuildConfig.BANNER){
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                }
                 BasicActivity.starter(this, DummyData.AD_BANNER_ID);
                 break;
             case R.string.basic_popup:
-                if(!BuildConfig.POPUP){
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+
                 BasicActivity.starter(this, DummyData.AD_POPUP_ID);
                 break;
             case R.string.basic_in_page:
-                if(!BuildConfig.INPAGE){
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
-                break;
+//                BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
             case R.string.basic_catfish:
-                if(!BuildConfig.CATFISH){
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
-                break;
+//                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
             case R.string.basic_welcome:
-                if(!BuildConfig.WELCOME){
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+//                BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
                 break;
             default:
                 Log.d(TAG, "basicHandle invalid type");
@@ -176,7 +157,7 @@ public class MainActivity extends BaseActivity implements DummyData {
                 RecyclerActivity.starter(this);
                 break;
             case R.string.mix_view_pager:
-                ViewPagerActivity.starter(this);
+//                ViewPagerActivity.starter(this);
                 Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
                 break;
             default:
