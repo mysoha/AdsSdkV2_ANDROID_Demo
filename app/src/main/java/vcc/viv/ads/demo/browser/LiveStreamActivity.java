@@ -55,7 +55,7 @@ public class LiveStreamActivity extends AppCompatActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, view, null);
+        vccAds.adSetupView(TAG, view, null, null);
         vccAds.adRequest(TAG, requestId, adIds);
     }
 

@@ -1,5 +1,6 @@
 package vcc.viv.ads.demo.basic;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
+import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 
 public class BasicActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
@@ -45,6 +47,7 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,7 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.root, null);
+        vccAds.adSetupView(TAG, binding.root, null, new VccOnTouchHandler());
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -106,7 +109,7 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
         public void closeAd(String tag, String requestId, String adId) {
             super.closeAd(tag, requestId, adId);
             Log.d(TAG, String.format("AD CLOSE - Success : requestId[%s] - adId[%s] - tag[%s]", requestId, adId, tag));
-            if("WelcomeActivity".equals(tag)) onBackPressed();
+            if ("WelcomeActivity".equals(tag)) onBackPressed();
         }
     }
 }

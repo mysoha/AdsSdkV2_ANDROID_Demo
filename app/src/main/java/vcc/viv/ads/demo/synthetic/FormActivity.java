@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.databinding.ActivityFormBinding;
@@ -34,7 +34,7 @@ import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class FormActivity extends BaseActivity implements DummyData {
+public class FormActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -219,11 +219,11 @@ public class FormActivity extends BaseActivity implements DummyData {
     }
 
     private void requestAds() {
-        List<String> adsIdList = tagAdapter.getData();
-        adapter.setData(adsIdList);
+        List<String> adsIds = tagAdapter.getData();
+        adapter.setData(adsIds);
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.constraintLayout, null);
-        vccAds.adRequest(TAG, requestId, adsIdList);
+        vccAds.adSetupView(TAG, binding.constraintLayout, null, null);
+        vccAds.adRequest(TAG, requestId, adsIds);
     }
 
     private void closeKeyboard() {

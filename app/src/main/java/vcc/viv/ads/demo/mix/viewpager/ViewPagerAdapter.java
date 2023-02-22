@@ -23,13 +23,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        ViewPagerFragment fragment = new ViewPagerFragment();
-        fragment.createTag(position);
-        return fragment;
+        if(position % 2 == 0) {
+            ViewPagerFragment fragment = new ViewPagerFragment();
+            fragment.createTag(position);
+            return fragment;
+        }else {
+            return new EmptyFragment();
+        }
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 6;
     }
 }
+

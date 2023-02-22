@@ -28,7 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
      * Area : Variable
      ********************************************************************** */
     private List<Data> data;
-    private final Callback callback;
+    private Callback callback;
 
     /* **********************************************************************
      * Area : Constructor
@@ -93,14 +93,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             add(new Data(Type.BASIC, ViewType.NONE, -1));
             add(new Data(Type.BASIC, ViewType.FIRST, R.string.basic_banner));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_popup));
-            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_in_page));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_in_page_default));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_in_page_non));
             add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_welcome));
-            add(new Data(Type.BASIC, ViewType.END, R.string.basic_catfish));
+            add(new Data(Type.BASIC, ViewType.MIDDLE, R.string.basic_catfish));
+            add(new Data(Type.BASIC, ViewType.END, R.string.basic_native_home));
 
             add(new Data(Type.MIX, ViewType.NONE, -1));
             add(new Data(Type.MIX, ViewType.FIRST, R.string.mix_scrollview));
             add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_listview));
             add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_recyclerview));
+            add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_recyclerviewhorizontal));
             add(new Data(Type.MIX, ViewType.END, R.string.mix_view_pager));
 
             add(new Data(Type.SYNTHETIC, ViewType.NONE, -1));
@@ -192,7 +195,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
      * Area : Inner Class - View Holder
      ********************************************************************** */
     public class OneViewHolder extends ViewHolder {
-        private final ItemMainOneBinding binding;
+        private ItemMainOneBinding binding;
 
         public OneViewHolder(ItemMainOneBinding binding) {
             super(binding.getRoot());
@@ -207,7 +210,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class FirstViewHolder extends ViewHolder {
-        private final ItemMainFirstBinding binding;
+        private ItemMainFirstBinding binding;
 
         public FirstViewHolder(ItemMainFirstBinding binding) {
             super(binding.getRoot());
@@ -222,7 +225,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class MiddleViewHolder extends ViewHolder {
-        private final ItemMainMiddleBinding binding;
+        private ItemMainMiddleBinding binding;
 
         public MiddleViewHolder(ItemMainMiddleBinding binding) {
             super(binding.getRoot());
@@ -237,7 +240,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class EndViewHolder extends ViewHolder {
-        private final ItemMainEndBinding binding;
+        private ItemMainEndBinding binding;
 
         public EndViewHolder(ItemMainEndBinding binding) {
             super(binding.getRoot());
@@ -252,7 +255,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public class NoneViewHolder extends ViewHolder {
-        private final ItemMainNoneBinding binding;
+        private ItemMainNoneBinding binding;
 
         public NoneViewHolder(ItemMainNoneBinding binding) {
             super(binding.getRoot());

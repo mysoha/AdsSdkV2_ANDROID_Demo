@@ -16,6 +16,7 @@ import vcc.viv.ads.demo.databinding.ActivityMainBinding;
 import vcc.viv.ads.demo.fake.FakeActivity;
 import vcc.viv.ads.demo.mix.ListActivity;
 import vcc.viv.ads.demo.mix.RecyclerActivity;
+import vcc.viv.ads.demo.mix.RecyclerHorizontalActivity;
 import vcc.viv.ads.demo.mix.ScrollActivity;
 import vcc.viv.ads.demo.mix.viewpager.ViewPagerActivity;
 import vcc.viv.ads.demo.synthetic.FormActivity;
@@ -125,20 +126,51 @@ public class MainActivity extends BaseActivity implements DummyData {
     private void basicHandle(MainAdapter.Data data) {
         switch (data.info) {
             case R.string.basic_banner:
+                if (!BuildConfig.BANNER) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                }
                 BasicActivity.starter(this, DummyData.AD_BANNER_ID);
                 break;
             case R.string.basic_popup:
-
+                if (!BuildConfig.POPUP) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
                 BasicActivity.starter(this, DummyData.AD_POPUP_ID);
                 break;
-            case R.string.basic_in_page:
-//                BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
-            case R.string.basic_catfish:
-//                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
-            case R.string.basic_welcome:
-                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-//                BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
+            case R.string.basic_in_page_default:
+                if (!BuildConfig.INPAGE) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
                 break;
+            case R.string.basic_in_page_non:
+                if (!BuildConfig.INPAGE) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_NON_IN_PAGE_ID);
+                break;
+            case R.string.basic_catfish:
+                if (!BuildConfig.CATFISH) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
+                break;
+            case R.string.basic_welcome:
+                if (!BuildConfig.WELCOME) {
+                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
+                break;
+            case R.string.basic_native_home:
+                BasicActivity.starter(this, DummyData.AD_NATIVE_HOME_ID);
+                break;
+            case R.string.basic_native_detail:
+                BasicActivity.starter(this, DummyData.AD_NATIVE_DETAIL_ID);
             default:
                 Log.d(TAG, "basicHandle invalid type");
                 break;
@@ -156,9 +188,11 @@ public class MainActivity extends BaseActivity implements DummyData {
             case R.string.mix_recyclerview:
                 RecyclerActivity.starter(this);
                 break;
+            case R.string.mix_recyclerviewhorizontal:
+                RecyclerHorizontalActivity.starter(this);
+                break;
             case R.string.mix_view_pager:
-//                ViewPagerActivity.starter(this);
-                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+                ViewPagerActivity.starter(this);
                 break;
             default:
                 Log.d(TAG, "basicHandle invalid type");

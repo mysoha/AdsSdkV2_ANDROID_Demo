@@ -1,22 +1,18 @@
 package vcc.viv.ads.demo.mix;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,14 +21,13 @@ import java.util.List;
 
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.databinding.ActivityMixRecyclerBinding;
-import vcc.viv.ads.demo.databinding.ItemBasicBinding;
+import vcc.viv.ads.demo.databinding.ActivityMixRecyclerHorizontalBinding;
+import vcc.viv.ads.demo.databinding.ItemBasicHorizontalBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
-import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
 
-public class RecyclerActivity extends AppCompatActivity implements DummyData {
+public class RecyclerHorizontalActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -41,7 +36,7 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityMixRecyclerBinding binding;
+    private ActivityMixRecyclerHorizontalBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
@@ -52,20 +47,19 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
      * Area : Starter
      ********************************************************************** */
     public static void starter(Context context) {
-        Intent intent = new Intent(context, RecyclerActivity.class);
+        Intent intent = new Intent(context, RecyclerHorizontalActivity.class);
         context.startActivity(intent);
     }
 
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = getLayoutInflater();
-        binding = ActivityMixRecyclerBinding.inflate(inflater);
+        binding = ActivityMixRecyclerHorizontalBinding.inflate(inflater);
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
@@ -77,22 +71,17 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
             }
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        VerticalSpaceItemDecoration divider = new VerticalSpaceItemDecoration();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         Adapter adapter = new Adapter(dummyData);
         binding.advertising.setLayoutManager(layoutManager);
         binding.advertising.setAdapter(adapter);
-        binding.advertising.addItemDecoration(divider);
+        binding.advertising.addItemDecoration(new DividerItemDecoration(binding.advertising.getContext(), DividerItemDecoration.HORIZONTAL));
         MyScroll scroll = new MyScroll();
         binding.advertising.setOnScrollChangeListener(scroll);
 
-        MyTouch touch = new MyTouch();
-        binding.advertising.setOnTouchListener(touch);
-
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.root, scroll, touch);
-//        vccAds.setExtraInfo("0", "1", "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn", "https://app.kenh14.vn/home");
+        vccAds.adSetupView(TAG, binding.root, scroll, null);
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -132,33 +121,6 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         }
     }
 
-    private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-        private final Drawable divider;
-
-        public VerticalSpaceItemDecoration() {
-            divider = ContextCompat.getDrawable(RecyclerActivity.this, R.drawable.line_divider);
-        }
-
-        @Override
-        public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-            int left = parent.getPaddingLeft();
-            int right = parent.getWidth() - parent.getPaddingRight();
-
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = parent.getChildAt(i);
-
-                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
-
-                int top = child.getBottom() + params.bottomMargin;
-                int bottom = top + divider.getIntrinsicHeight();
-
-                divider.setBounds(left, top, right, bottom);
-                divider.draw(c);
-            }
-        }
-    }
-
     private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         private final List<String> ids;
 
@@ -180,7 +142,7 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
-            ItemBasicBinding binding = ItemBasicBinding.inflate(inflater, parent, false);
+            ItemBasicHorizontalBinding binding = ItemBasicHorizontalBinding.inflate(inflater, parent, false);
             return new ViewHolder(binding);
         }
 
@@ -192,19 +154,24 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
                 holder.binding.title.setVisibility(View.VISIBLE);
                 holder.binding.title.setText("");
                 holder.binding.title.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
+                holder.binding.constraint.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
+                holder.binding.title.setBackgroundColor(Color.parseColor("#FF80DEEA"));
                 holder.binding.replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                holder.binding.constraint.getLayoutParams().width = 200;
             } else {
                 holder.binding.title.setVisibility(View.VISIBLE);
                 holder.binding.title.setText(id);
+                holder.binding.constraint.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
                 holder.binding.title.setBackgroundColor(Color.parseColor("#88000000"));
+                holder.binding.constraint.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 vccAds.adAdd(holder.binding.replace, TAG, requestId, id, position);
             }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private final ItemBasicBinding binding;
+            private final ItemBasicHorizontalBinding binding;
 
-            public ViewHolder(ItemBasicBinding binding) {
+            public ViewHolder(ItemBasicHorizontalBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
             }
@@ -215,14 +182,6 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);
-        }
-    }
-
-    private static class MyTouch extends VccOnTouchHandler {
-        @SuppressLint("ClickableViewAccessibility")
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return super.onTouch(v, event);
         }
     }
 }

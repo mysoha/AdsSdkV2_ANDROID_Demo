@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.databinding.ActivityMixViewpagerBinding;
 
-public class ViewPagerActivity extends BaseActivity {
+public class ViewPagerActivity extends AppCompatActivity {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */

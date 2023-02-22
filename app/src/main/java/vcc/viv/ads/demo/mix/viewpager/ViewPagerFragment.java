@@ -18,7 +18,7 @@ import vcc.viv.ads.demo.databinding.ItemMixViewpagerBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class ViewPagerFragment extends Fragment {
+public class ViewPagerFragment extends Fragment implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -29,11 +29,9 @@ public class ViewPagerFragment extends Fragment {
      ********************************************************************** */
     private ItemMixViewpagerBinding binding;
     private int id = 0;
-    private final String requestId = "1";
+    private String requestId = "1";
     private VccAds vccAds;
     private final List<String> adIds = new ArrayList<String>() {{
-        add(DummyData.AD_BANNER_ID);
-        add(DummyData.AD_POPUP_ID);
     }};
 
     /* **********************************************************************
@@ -49,10 +47,17 @@ public class ViewPagerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        int position = id % AD_BANNER_IDS.size();
+        String adId = AD_BANNER_IDS.get(position);
+        adIds.add(adId);
+        binding.title.setText(adId);
+
         String tag = TAG + "_" + id;
         vccAds = VccAds.getInstance();
         vccAds.adSetupView(tag, binding.root, null);
         vccAds.onVccAdsListener(tag, new VccAdsHandler());
+//        vccAds.setExtraInfo("0", "1", "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn", "https://app.kenh14.vn/home");
         vccAds.adRequest(tag, requestId, adIds);
     }
 

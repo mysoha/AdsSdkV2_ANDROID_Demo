@@ -7,13 +7,13 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/padding"
         android:background="@drawable/bg_border_all"
-        android:backgroundTint="@color/primaryColor">
+        android:backgroundTint="@color/primaryColor"
+        android:padding="@dimen/padding_small">
 
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding"
             android:layout_marginRight="@dimen/padding"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -24,9 +24,9 @@
 
         <ImageView
             android:id="@+id/remove"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:padding="@dimen/padding_small"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_cancel"
             app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintRight_toRightOf="parent"

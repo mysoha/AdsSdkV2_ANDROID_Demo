@@ -1,17 +1,20 @@
 package vcc.viv.ads.demo.mix;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
-import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.databinding.ActivityMixScrollBinding;
@@ -19,9 +22,10 @@ import vcc.viv.ads.demo.databinding.ItemBasicBinding;
 import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
+import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
 
-public class ScrollActivity extends BaseActivity implements DummyData {
+public class ScrollActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -47,6 +51,7 @@ public class ScrollActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,9 @@ public class ScrollActivity extends BaseActivity implements DummyData {
 
         MyScroll scroll = new MyScroll();
         binding.scroll.setOnScrollChangeListener(scroll);
+
+        MyTouch onTouch = new MyTouch();
+        binding.scroll.setOnTouchListener(onTouch);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.topMargin = (int) Utility.dpToPx(this, 1);
@@ -80,7 +88,8 @@ public class ScrollActivity extends BaseActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.root, scroll);
+        vccAds.adSetupView(TAG, binding.root, scroll, onTouch);
+        vccAds.setExtraInfo("0", "1", "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn", "https://app.kenh14.vn/home");
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -150,6 +159,14 @@ public class ScrollActivity extends BaseActivity implements DummyData {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);
+        }
+    }
+
+    private static class MyTouch extends VccOnTouchHandler {
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return super.onTouch(v, event);
         }
     }
 }

@@ -2,14 +2,18 @@
     <string name="app_name">Vccorp Advertising Demo</string>
 
     <string name="basic_banner">Banner</string>
-    <string name="basic_in_page">InPage</string>
+    <string name="basic_in_page_default">InPage - Below</string>
+    <string name="basic_in_page_non">InPage - Banner</string>
     <string name="basic_popup">Popup</string>
     <string name="basic_catfish">Catfish</string>
     <string name="basic_welcome">Welcome</string>
+    <string name="basic_native_home">Home</string>
+    <string name="basic_native_detail">Detail</string>
 
     <string name="mix_scrollview">ScrollView</string>
     <string name="mix_listview">ListView</string>
     <string name="mix_recyclerview">RecyclerView</string>
+    <string name="mix_recyclerviewhorizontal">RecyclerViewHorizontal</string>
     <string name="mix_view_pager">ViewPager</string>
 
     <string name="synthetic_form">Form</string>

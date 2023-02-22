@@ -80,7 +80,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
 
             }
         });
-        vccAds.adSetupView(TAG,binding.advertising,null);
+        vccAds.adSetupView(TAG, binding.advertising, null);
 
         Bundle bundle = getIntent().getExtras();
         String format = bundle.getString(KEY_FORMAT, "");
@@ -146,7 +146,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
                 e.printStackTrace();
             }
         } else {
-            vccAds.openBrowser(url, 0,"");
+            vccAds.openBrowser(url, 0, "");
         }
 
     }
@@ -172,8 +172,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
             String landLink = landingJson.optString("link", "");
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
-//            BrowserActivity.starter(FakeActivity.this, null, brandLogo, "", "", url, Integer.parseInt(landingType));
-            vccAds.openBrowser(url, Integer.parseInt(landingType),brandLogo);
+            vccAds.openBrowser(url, Integer.parseInt(landingType), brandLogo);
         }
     }
 }
