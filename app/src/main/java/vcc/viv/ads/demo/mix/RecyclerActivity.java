@@ -92,7 +92,6 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
         vccAds.adSetupView(TAG, binding.root, scroll, touch);
-//        vccAds.setExtraInfo("0", "1", "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn", "https://app.kenh14.vn/home");
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
