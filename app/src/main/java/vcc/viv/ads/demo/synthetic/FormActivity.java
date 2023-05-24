@@ -17,7 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.databinding.ActivityFormBinding;
@@ -34,7 +34,7 @@ import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class FormActivity extends AppCompatActivity implements DummyData {
+public class FormActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -223,7 +223,8 @@ public class FormActivity extends AppCompatActivity implements DummyData {
         adapter.setData(adsIds);
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
         vccAds.adSetupView(TAG, binding.constraintLayout, null, null);
-        vccAds.adRequest(TAG, requestId, adsIds);
+        vccAds.setDeviceId("99e11d3dcbcbce7d");
+        vccAds.adRequest(TAG, requestId, adsIds,"1","vcc.mobilenewsreader.cafef","vcc.mobilenewsreader.cafef","0");
     }
 
     private void closeKeyboard() {
@@ -264,8 +265,8 @@ public class FormActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override

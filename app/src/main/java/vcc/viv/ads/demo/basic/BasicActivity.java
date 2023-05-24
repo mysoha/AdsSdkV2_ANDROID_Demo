@@ -7,18 +7,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 
-public class BasicActivity extends AppCompatActivity implements DummyData {
+public class BasicActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -42,11 +41,12 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
         Intent intent = new Intent(context, BasicActivity.class);
         intent.putExtra(KEY_ID, id);
         context.startActivity(intent);
+//        ((Activity) context).overridePendingTransition(vcc.viv.ads.R.anim.transaction_up_down, vcc.viv.ads.R.anim.transaction_empty);
     }
 
     /* **********************************************************************
      * Area : Function - Override
-     ********************************************************************** */
+     ******************************************************************a hun**** */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,15 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
         vccAds.adSetupView(TAG, binding.root, null, new VccOnTouchHandler());
-        vccAds.adRequest(TAG, requestId, adIds);
+//        vccAds.setDeviceId("99e11d3dcbcbce7d"); Nịn
+        vccAds.setDeviceId("80c4d8655bf07e0f");
+        vccAds.adRequest(TAG, requestId, adIds, "1",
+                "https://soha.vn/tan-thuy-hoang-chet-nhu-the-nao-he-lo-3-nguyen-nhan-khong-chi-do-thuoc-truong-sinh-20211107234501608.htm",
+                "vcc.mobilenewsreader.sohanews",
+                "0");
+        binding.btn.setOnClickListener(v -> {
+            vccAds.adDisable(TAG, "1", "13991");
+        });
     }
 
     @Override
@@ -87,7 +95,13 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
+        public void requestComplete(String tag) {
+            Log.d(TAG, "requestComplete");
+        }
+
+        @Override
         public void initSuccess() {
+            Log.d(TAG, "initSuccess");
         }
 
         @Override
@@ -96,20 +110,37 @@ public class BasicActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("tag[%s] - request[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
-            Log.d(TAG, String.format("AD REQUEST - Success : requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+            Log.d(TAG, String.format("AD REQUEST - Success :tag[%s]-  requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
         }
 
         @Override
         public void closeAd(String tag, String requestId, String adId) {
             super.closeAd(tag, requestId, adId);
-            Log.d(TAG, String.format("AD CLOSE - Success : requestId[%s] - adId[%s] - tag[%s]", requestId, adId, tag));
+            Log.d(TAG, String.format("closeAd : requestId[%s] - adId[%s] - tag[%s]", requestId, adId, tag));
             if ("WelcomeActivity".equals(tag)) onBackPressed();
+        }
+
+        @Override
+        public void limitPopup(String tag, String requestId, String adId) {
+            super.limitPopup(tag, requestId, adId);
+        }
+
+        @Override
+        public void showClosePopup(int time) {
+            super.showClosePopup(time);
+        }
+
+        @Override
+        public void catfishState(String state) {
+            super.catfishState(state);
+            Log.d(TAG, "catfishState: " + state);
         }
     }
 }
+

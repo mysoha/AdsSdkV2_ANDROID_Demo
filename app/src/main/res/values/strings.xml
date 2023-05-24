@@ -12,6 +12,7 @@
 
     <string name="mix_scrollview">ScrollView</string>
     <string name="mix_listview">ListView</string>
+    <string name="mix_visibility">ListView Visibility</string>
     <string name="mix_recyclerview">RecyclerView</string>
     <string name="mix_recyclerviewhorizontal">RecyclerViewHorizontal</string>
     <string name="mix_view_pager">ViewPager</string>

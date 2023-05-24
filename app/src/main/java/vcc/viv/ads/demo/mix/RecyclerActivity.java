@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.databinding.ActivityMixRecyclerBinding;
@@ -32,7 +32,7 @@ import vcc.viv.ads.transport.VccAdsListener;
 import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
 
-public class RecyclerActivity extends AppCompatActivity implements DummyData {
+public class RecyclerActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -91,8 +91,12 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
 
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
+
         vccAds.adSetupView(TAG, binding.root, scroll, touch);
         vccAds.adRequest(TAG, requestId, adIds);
+//        vccAds.adRequest(TAG, requestId, adIds, "1",
+//                "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn"
+//                , "https://app.kenh14.vn/home", "0");
     }
 
     @Override
@@ -121,8 +125,8 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override
@@ -186,6 +190,7 @@ public class RecyclerActivity extends AppCompatActivity implements DummyData {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             String id = ids.get(position);
+            Log.d(TAG, "need onBindViewHolder: " + id);
             holder.binding.replace.removeAllViews();
             if (TextUtils.isEmpty(id)) {
                 holder.binding.title.setVisibility(View.VISIBLE);

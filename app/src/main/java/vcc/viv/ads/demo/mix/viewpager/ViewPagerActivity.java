@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.databinding.ActivityMixViewpagerBinding;
 
-public class ViewPagerActivity extends AppCompatActivity {
+public class ViewPagerActivity extends BaseActivity {
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
@@ -36,7 +36,9 @@ public class ViewPagerActivity extends AppCompatActivity {
         setContentView(view);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        binding.viewpager.setOffscreenPageLimit(4);
+        adapter.setSameDirectionView(binding.viewpager);
+//        binding.viewpager.setOffscreenPageLimit(4);
         binding.viewpager.setAdapter(adapter);
+        binding.viewpager.setPageMargin(4);
     }
 }

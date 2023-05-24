@@ -1,4 +1,4 @@
-package vcc.viv.ads.demo.mix.viewpager;
+package vcc.viv.ads.demo.mix.viewpager.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -48,17 +48,26 @@ public class ViewPagerFragment extends Fragment implements DummyData {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        int position = id % AD_BANNER_IDS.size();
-        String adId = AD_BANNER_IDS.get(position);
+//        int position = id % AD_BANNER_IDS.size();
+//        String adId = AD_BANNER_IDS.get(position);
+        String adId = AD_IN_PAGE_ID;
         adIds.add(adId);
         binding.title.setText(adId);
 
         String tag = TAG + "_" + id;
         vccAds = VccAds.getInstance();
         vccAds.adSetupView(tag, binding.root, null);
+        vccAds.setDeviceId("99e11d3dcbcbce7d");
         vccAds.onVccAdsListener(tag, new VccAdsHandler());
-//        vccAds.setExtraInfo("0", "1", "https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn", "https://app.kenh14.vn/home");
-        vccAds.adRequest(tag, requestId, adIds);
+        List<String> urls = new ArrayList<>();
+        urls.add("https://autopro.com.vn/toi-mang-mitsubishi-xpander-cross-len-deo-nui-de-tra-loi-thac-mac-cua-doc-gia-xe-yeu-mam-lop-nho-va-thua-cong-nghe-177230406063817765.chn#utm_source=autopro&utm_campaign=autopro&utm_medium=autopro&pgclid=ehzA7/3lbDSqeTVijpkFEkF6yL375js3+iphMdrJWBQSEs+/");
+        urls.add("https://autopro.com.vn/honda-cr-v-2023-lan-dau-lo-dien-tai-viet-nam-du-kien-ra-mat-cuoi-nam-nay-bom-tan-dau-tucson-va-cx-5-177230405200833486.chn#utm_source=autopro&utm_campaign=autopro&utm_medium=autopro&pgclid=ehzA7_3lbDSqeTVijpkFEkF6yL375js3-ipiM9zKWBYWEcG8");
+        urls.add("https://autopro.com.vn/boc-duoc-bien-tu-quy-8-chu-vinfast-lux-a20-de-phu-bui-gan-1-nam-khong-di-roi-ban-gia-12-ty-dong-ngang-camry-moi-177230406201442086.chn#utm_source=autopro&utm_campaign=autopro&utm_medium=autopro&pgclid=ehzA7_3lbDSqeTVijpkFEkF6yL375js3-iphM9zLVBEXFcG8");
+        urls.add("https://autopro.com.vn/dam-cuoi-trieu-do-o-an-giang-hoi-mon-23-ty-tien-mat-tang-nha-70-ty-nhung-mon-qua-cuoi-cung-moi-gia-tri-nhat-177230406094831696.chn#utm_source=autopro&utm_campaign=autopro&utm_medium=autopro&pgclid=ehzA7_3lbDSqeTVijpkFEkF6yL375js3-iphMdXOWBYUE8C8");
+
+        int index = id % urls.size();
+        String url = urls.get(index);
+        vccAds.adRequest(tag, requestId, adIds,"1",url,url,"0");
     }
 
     public void createTag(int id) {
@@ -85,8 +94,8 @@ public class ViewPagerFragment extends Fragment implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override

@@ -18,6 +18,7 @@ import vcc.viv.ads.demo.mix.ListActivity;
 import vcc.viv.ads.demo.mix.RecyclerActivity;
 import vcc.viv.ads.demo.mix.RecyclerHorizontalActivity;
 import vcc.viv.ads.demo.mix.ScrollActivity;
+import vcc.viv.ads.demo.mix.VisibilityActivity;
 import vcc.viv.ads.demo.mix.viewpager.ViewPagerActivity;
 import vcc.viv.ads.demo.synthetic.FormActivity;
 import vcc.viv.ads.transport.VccAds;
@@ -185,6 +186,9 @@ public class MainActivity extends BaseActivity implements DummyData {
             case R.string.mix_listview:
                 ListActivity.starter(this);
                 break;
+            case R.string.mix_visibility:
+                VisibilityActivity.starter(this);
+                break;
             case R.string.mix_recyclerview:
                 RecyclerActivity.starter(this);
                 break;
@@ -255,7 +259,7 @@ public class MainActivity extends BaseActivity implements DummyData {
         public void initSuccess() {
             Log.i(TAG, "init success");
             vccAds.setDeviceId(DEVICE_ID);
-            vccAds.initWelcome(R.drawable.ic_logo, R.drawable.ic_title_logo, 3000, 1000, true);
+            vccAds.initWelcome(R.drawable.ic_logo, R.drawable.ic_title_logo,R.color.purple_200,R.color.blue_200,true, 3000, 1000, 100);
             snackbar.dismiss();
         }
 
@@ -264,8 +268,8 @@ public class MainActivity extends BaseActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override

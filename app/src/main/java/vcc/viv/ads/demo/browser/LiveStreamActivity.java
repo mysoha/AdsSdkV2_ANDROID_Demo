@@ -6,18 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.basic.BasicActivity;
 import vcc.viv.ads.demo.databinding.ActivityCustomBrowserBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class LiveStreamActivity extends AppCompatActivity implements DummyData {
+public class LiveStreamActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -89,8 +88,8 @@ public class LiveStreamActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId,msg));
         }
 
         @Override

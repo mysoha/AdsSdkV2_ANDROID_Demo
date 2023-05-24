@@ -1,19 +1,22 @@
 package vcc.viv.ads.demo.mix;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,22 +24,24 @@ import java.util.List;
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
-import vcc.viv.ads.demo.databinding.ActivityMixRecyclerHorizontalBinding;
-import vcc.viv.ads.demo.databinding.ItemBasicHorizontalBinding;
+import vcc.viv.ads.demo.databinding.ActivityHideBinding;
+import vcc.viv.ads.demo.databinding.ActivityMixListBinding;
+import vcc.viv.ads.demo.databinding.ItemBasicBinding;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
+import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
 
-public class RecyclerHorizontalActivity extends BaseActivity implements DummyData {
+public class VisibilityActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
-    private final String TAG = RecyclerActivity.class.getSimpleName();
+    private final String TAG = VisibilityActivity.class.getSimpleName();
 
     /* **********************************************************************
      * Area : Variable
      ********************************************************************** */
-    private ActivityMixRecyclerHorizontalBinding binding;
+    private ActivityHideBinding binding;
 
     private VccAds vccAds;
     private final String requestId = "1";
@@ -47,19 +52,20 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
      * Area : Starter
      ********************************************************************** */
     public static void starter(Context context) {
-        Intent intent = new Intent(context, RecyclerHorizontalActivity.class);
+        Intent intent = new Intent(context, VisibilityActivity.class);
         context.startActivity(intent);
     }
 
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         LayoutInflater inflater = getLayoutInflater();
-        binding = ActivityMixRecyclerHorizontalBinding.inflate(inflater);
+        binding = ActivityHideBinding.inflate(inflater);
         ViewGroup view = (ViewGroup) binding.getRoot();
         setContentView(view);
 
@@ -71,18 +77,27 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
             }
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         Adapter adapter = new Adapter(dummyData);
-        binding.advertising.setLayoutManager(layoutManager);
         binding.advertising.setAdapter(adapter);
-        binding.advertising.addItemDecoration(new DividerItemDecoration(binding.advertising.getContext(), DividerItemDecoration.HORIZONTAL));
         MyScroll scroll = new MyScroll();
         binding.advertising.setOnScrollChangeListener(scroll);
 
+        MyTouch onTouch = new MyTouch();
+        binding.advertising.setOnTouchListener(onTouch);
+
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
-        vccAds.adSetupView(TAG, binding.root, scroll, null);
+        vccAds.adSetupView(TAG, binding.root, scroll, onTouch);
+//        vccAds.setExtraInfo("0", "1","https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn","https://app.kenh14.vn/home");
         vccAds.adRequest(TAG, requestId, adIds);
+
+        binding.visible.setOnClickListener(v -> {
+            vccAds.setVisibility(TAG,requestId,AD_IN_PAGE_ID,true);
+        });
+        binding.invisible.setOnClickListener(v -> {
+            vccAds.setVisibility(TAG,requestId,AD_IN_PAGE_ID,false);
+        });
+
     }
 
     @Override
@@ -92,6 +107,10 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
             vccAds.onVccAdsListener(TAG, null);
         }
     }
+
+    /* **********************************************************************
+     * Area : Function
+     ********************************************************************** */
 
     /* **********************************************************************
      * Area : Inner Class
@@ -118,10 +137,14 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
             Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                vccAds.setVisibility(tag, requestId, adId, false);
+            },3000);
         }
     }
 
-    private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+    private class Adapter extends BaseAdapter {
         private final List<String> ids;
 
         public Adapter(List<String> ids) {
@@ -129,7 +152,7 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
         }
 
         @Override
-        public int getItemCount() {
+        public int getCount() {
             try {
                 return ids.size();
             } catch (Exception e) {
@@ -137,44 +160,43 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
             }
         }
 
-        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            LayoutInflater inflater = LayoutInflater.from(context);
-            ItemBasicHorizontalBinding binding = ItemBasicHorizontalBinding.inflate(inflater, parent, false);
-            return new ViewHolder(binding);
+        public Object getItem(int position) {
+            return this.ids.get(position);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                Context context = parent.getContext();
+                LayoutInflater inflater = LayoutInflater.from(context);
+                ItemBasicBinding binding = ItemBasicBinding.inflate(inflater, parent, false);
+                convertView = binding.getRoot();
+            }
+
             String id = ids.get(position);
-            holder.binding.replace.removeAllViews();
+            ConstraintLayout replace = convertView.findViewById(R.id.replace);
+            TextView title = convertView.findViewById(R.id.title);
+
+            replace.removeAllViews();
             if (TextUtils.isEmpty(id)) {
-                holder.binding.title.setVisibility(View.VISIBLE);
-                holder.binding.title.setText("");
-                holder.binding.title.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
-                holder.binding.constraint.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
-                holder.binding.title.setBackgroundColor(Color.parseColor("#FF80DEEA"));
-                holder.binding.replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                holder.binding.constraint.getLayoutParams().width = 200;
+                title.setText("");
+                title.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
+
+                replace.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else {
-                holder.binding.title.setVisibility(View.VISIBLE);
-                holder.binding.title.setText(id);
-                holder.binding.constraint.setBackgroundColor(getResources().getColor(R.color.secondaryColor, getTheme()));
-                holder.binding.title.setBackgroundColor(Color.parseColor("#88000000"));
-                holder.binding.constraint.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                vccAds.adAdd(holder.binding.replace, TAG, requestId, id, position);
-            }
-        }
+                title.setText(id);
+                title.setBackgroundColor(Color.parseColor("#88000000"));
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            private final ItemBasicHorizontalBinding binding;
-
-            public ViewHolder(ItemBasicHorizontalBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
+                vccAds.adAdd(replace, TAG, requestId, id, position);
             }
+
+            return convertView;
         }
     }
 
@@ -182,6 +204,14 @@ public class RecyclerHorizontalActivity extends BaseActivity implements DummyDat
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             super.onScrollChange(v, scrollX, scrollY, oldScrollX, oldScrollY);
+        }
+    }
+
+    private static class MyTouch extends VccOnTouchHandler {
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return super.onTouch(v, event);
         }
     }
 }

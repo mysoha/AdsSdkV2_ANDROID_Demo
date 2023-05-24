@@ -1,4 +1,4 @@
-package vcc.viv.ads.demo.mix.viewpager;
+package vcc.viv.ads.demo.mix.viewpager.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

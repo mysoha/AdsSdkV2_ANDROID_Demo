@@ -102,6 +102,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             add(new Data(Type.MIX, ViewType.NONE, -1));
             add(new Data(Type.MIX, ViewType.FIRST, R.string.mix_scrollview));
             add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_listview));
+            add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_visibility));
             add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_recyclerview));
             add(new Data(Type.MIX, ViewType.MIDDLE, R.string.mix_recyclerviewhorizontal));
             add(new Data(Type.MIX, ViewType.END, R.string.mix_view_pager));

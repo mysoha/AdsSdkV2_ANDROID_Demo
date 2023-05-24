@@ -1,5 +1,6 @@
 package vcc.viv.ads.demo.fake;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,18 +15,18 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import vcc.viv.ads.business.vcc.presenter.activity.browser.BrowserActivity;
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityFakeBinding;
 import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
-public class FakeActivity extends AppCompatActivity implements DummyData {
+public class FakeActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -51,6 +52,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
+    @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
         vccAds.onVccAdsListener(TAG, new VccAdsListener() {
             @Override
             public void initSuccess() {
+
             }
 
             @Override
@@ -71,16 +74,16 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
             }
 
             @Override
-            public void adRequestFail(String s, String s1, String s2) {
+            public void adRequestFail(String tag, String requestId, String adId, String msg) {
 
             }
 
             @Override
-            public void adRequestSuccess(String s, String s1, String s2, String s3) {
+            public void adRequestSuccess(String tag, String requestId, String adId, String adType) {
 
             }
         });
-        vccAds.adSetupView(TAG, binding.advertising, null);
+        vccAds.adSetupView(TAG, binding.advertising, null, null);
 
         Bundle bundle = getIntent().getExtras();
         String format = bundle.getString(KEY_FORMAT, "");
@@ -95,7 +98,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
         settings.setLoadWithOverviewMode(true);
         settings.setAllowFileAccess(true);
         settings.setDomStorageEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             binding.web.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -146,7 +149,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
                 e.printStackTrace();
             }
         } else {
-            vccAds.openBrowser(url, 0, "");
+            BrowserActivity.a(FakeActivity.this, null, "", "", "", url, 3, 0);
         }
 
     }
@@ -172,6 +175,7 @@ public class FakeActivity extends AppCompatActivity implements DummyData {
             String landLink = landingJson.optString("link", "");
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
+            BrowserActivity.a(FakeActivity.this, null, brandLogo, "", "", url, 3, Integer.parseInt(landingType));
             vccAds.openBrowser(url, Integer.parseInt(landingType), brandLogo);
         }
     }

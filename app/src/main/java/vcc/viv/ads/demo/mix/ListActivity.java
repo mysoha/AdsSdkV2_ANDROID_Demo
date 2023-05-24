@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.R;
 import vcc.viv.ads.demo.databinding.ActivityMixListBinding;
@@ -29,7 +31,7 @@ import vcc.viv.ads.transport.VccAdsListener;
 import vcc.viv.ads.transport.ontouch.VccOnTouchHandler;
 import vcc.viv.ads.transport.scroll.VccScrollHandler;
 
-public class ListActivity extends AppCompatActivity implements DummyData {
+public class ListActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
@@ -85,6 +87,7 @@ public class ListActivity extends AppCompatActivity implements DummyData {
         vccAds = VccAds.getInstance();
         vccAds.onVccAdsListener(TAG, new VccAdsHandler());
         vccAds.adSetupView(TAG, binding.root, scroll, onTouch);
+//        vccAds.setExtraInfo("0", "1","https://kenh14.vn/bi-mat-trong-lang-mo-tan-thuy-hoang-hoa-ra-khong-the-khai-quat-la-do-lop-tuong-dac-biet-20211113111052856.chn","https://app.kenh14.vn/home");
         vccAds.adRequest(TAG, requestId, adIds);
     }
 
@@ -118,13 +121,17 @@ public class ListActivity extends AppCompatActivity implements DummyData {
         }
 
         @Override
-        public void adRequestFail(String tag, String request, String adId) {
-            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s]", tag, request, adId));
+        public void adRequestFail(String tag, String request, String adId, String msg) {
+            Log.d(TAG, String.format("AD REQUEST - Fail : tag[%s] - requestId[%s] - adId[%s] - msg[%s]", tag, request, adId, msg));
         }
 
         @Override
         public void adRequestSuccess(String tag, String request, String adId, String adType) {
             Log.d(TAG, String.format("AD REQUEST - Success : tag[%s] - requestId[%s] - adId[%s] - adType[%s]", tag, request, adId, adType));
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                vccAds.setVisibility(tag, requestId, adId, false);
+            },3000);
         }
     }
 

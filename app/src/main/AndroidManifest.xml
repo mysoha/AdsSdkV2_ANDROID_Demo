@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -25,6 +25,7 @@
         <activity android:name=".basic.BasicActivity" />
         <activity android:name=".mix.ScrollActivity" />
         <activity android:name=".mix.ListActivity" />
+        <activity android:name=".mix.VisibilityActivity" />
         <activity android:name=".mix.RecyclerActivity" />
         <activity android:name=".mix.RecyclerHorizontalActivity" />
         <activity android:name=".mix.viewpager.ViewPagerActivity" />
@@ -36,7 +37,6 @@
         <activity android:name=".browser.BrowserGameActivity" />
         <activity android:name=".browser.LiveStreamActivity" />
         <activity android:name=".browser.EcommerceActivity" />
-
     </application>
 
 </manifest>
