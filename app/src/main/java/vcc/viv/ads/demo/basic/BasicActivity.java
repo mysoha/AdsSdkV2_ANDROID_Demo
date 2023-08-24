@@ -89,7 +89,7 @@ public class BasicActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Inner Class
      ********************************************************************** */
-    private class VccAdsHandler extends VccAdsListener {
+    public class VccAdsHandler extends VccAdsListener {
         @Override
         public void initPrepare() {
         }

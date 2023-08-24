@@ -15,9 +15,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url "https://sohames.jfrog.io/artifactory/vcc-sdk-ads-gradle-dev-local/"
-        }
+//        maven {
+//            url "https://sohames.jfrog.io/artifactory/vcc-sdk-ads-gradle-dev-local/"
+//        }
     }
 }
 

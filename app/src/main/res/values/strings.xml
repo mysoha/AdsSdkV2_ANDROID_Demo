@@ -16,6 +16,7 @@
     <string name="mix_recyclerview">RecyclerView</string>
     <string name="mix_recyclerviewhorizontal">RecyclerViewHorizontal</string>
     <string name="mix_view_pager">ViewPager</string>
+    <string name="mix_view_pager_test">ViewPager Test</string>
 
     <string name="synthetic_form">Form</string>
 

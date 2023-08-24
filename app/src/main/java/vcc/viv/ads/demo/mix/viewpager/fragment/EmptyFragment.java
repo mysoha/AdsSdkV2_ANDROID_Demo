@@ -15,7 +15,7 @@ public class EmptyFragment extends Fragment {
     /* **********************************************************************
      * Area : Variable - Const
      ********************************************************************** */
-    private final String TAG = ViewPagerFragment.class.getSimpleName();
+    private final String TAG = EmptyFragment.class.getSimpleName();
 
     /* **********************************************************************
      * Area : Variable

@@ -1,9 +1,7 @@
 package vcc.viv.ads.demo.fake;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,11 +16,9 @@ import android.webkit.WebViewClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import vcc.viv.ads.business.vcc.presenter.activity.browser.BrowserActivity;
 import vcc.viv.ads.demo.BaseActivity;
 import vcc.viv.ads.demo.DummyData;
 import vcc.viv.ads.demo.databinding.ActivityFakeBinding;
-import vcc.viv.ads.demo.utility.Utility;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
 
@@ -52,7 +48,6 @@ public class FakeActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Function - Override
      ********************************************************************** */
-    @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +108,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     if (request != null && request.getUrl() != null) {
                         String url = request.getUrl().toString();
-                        redirect(url);
+//                        redirect(url);
                     }
                 }
                 return true;
@@ -122,7 +117,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (!TextUtils.isEmpty(url)) {
-                    redirect(url);
+//                    redirect(url);
                 }
                 return true;
             }
@@ -140,19 +135,19 @@ public class FakeActivity extends BaseActivity implements DummyData {
     /* **********************************************************************
      * Area : Function
      ********************************************************************** */
-    private void redirect(String url) {
-        if (Utility.isDynamicLink(url)) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            BrowserActivity.a(FakeActivity.this, null, "", "", "", url, 3, 0);
-        }
-
-    }
+//    private void redirect(String url) {
+//        if (DynamicUtility.isDynamicLink(url)) {
+//            try {
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                startActivity(intent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            BrowserActivity.starter(FakeActivity.this, null, "", "", "", url, 3, 0);
+//        }
+//
+//    }
 
     /* **********************************************************************
      * Area : Inner Class
@@ -175,7 +170,7 @@ public class FakeActivity extends BaseActivity implements DummyData {
             String landLink = landingJson.optString("link", "");
             String url = TextUtils.isEmpty(deepLink) ? landLink : deepLink;
 
-            BrowserActivity.a(FakeActivity.this, null, brandLogo, "", "", url, 3, Integer.parseInt(landingType));
+//            BrowserActivity.starter(FakeActivity.this, null, brandLogo, "", "", url, 3, Integer.parseInt(landingType));
             vccAds.openBrowser(url, Integer.parseInt(landingType), brandLogo);
         }
     }

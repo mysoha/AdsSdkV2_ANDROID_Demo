@@ -1,5 +1,7 @@
 package vcc.viv.ads.demo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -20,6 +22,7 @@ import vcc.viv.ads.demo.mix.RecyclerHorizontalActivity;
 import vcc.viv.ads.demo.mix.ScrollActivity;
 import vcc.viv.ads.demo.mix.VisibilityActivity;
 import vcc.viv.ads.demo.mix.viewpager.ViewPagerActivity;
+import vcc.viv.ads.demo.mix.viewpager_test.ViewPagerTestActivity;
 import vcc.viv.ads.demo.synthetic.FormActivity;
 import vcc.viv.ads.transport.VccAds;
 import vcc.viv.ads.transport.VccAdsListener;
@@ -38,6 +41,8 @@ public class MainActivity extends BaseActivity implements DummyData {
 
     private ActivityMainBinding binding;
     private Snackbar snackbar;
+    public static String MODE_FILE_NAME = "Mode";
+    public static String MODE_KEY = "night";
 
     private VccAds vccAds;
     private Handler handler;
@@ -50,6 +55,16 @@ public class MainActivity extends BaseActivity implements DummyData {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         ViewGroup view = (ViewGroup) binding.getRoot();
+        SharedPreferences modePreferences = getSharedPreferences(MODE_FILE_NAME, Context.MODE_PRIVATE);
+        boolean nightMode = false;
+        if(modePreferences != null) {
+            nightMode = modePreferences.getBoolean(MODE_KEY, false);
+        }
+        if (!nightMode) {
+            setTheme(R.style.Theme_LightMode);
+        } else {
+            setTheme(R.style.Theme_DarkMode);
+        }
         setContentView(view);
 
         handler = new Handler(getMainLooper());
@@ -197,6 +212,9 @@ public class MainActivity extends BaseActivity implements DummyData {
                 break;
             case R.string.mix_view_pager:
                 ViewPagerActivity.starter(this);
+                break;
+            case R.string.mix_view_pager_test:
+                ViewPagerTestActivity.starter(this);
                 break;
             default:
                 Log.d(TAG, "basicHandle invalid type");
