@@ -57,5 +57,5 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
     // Dagger Hilt
-    implementation 'vcc.viv.ads:vcc-sdk-ads:2.1.2-dev16'
+    implementation 'vcc.viv.ads:vcc-sdk-ads:2.1.3'
 }
