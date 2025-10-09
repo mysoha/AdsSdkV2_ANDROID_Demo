@@ -65,12 +65,12 @@ public class BasicActivity extends BaseActivity implements DummyData {
         vccAds.adSetupView(TAG, binding.root, null, new VccOnTouchHandler());
 //        vccAds.setDeviceId("99e11d3dcbcbce7d");
         vccAds.setDeviceId(DummyData.DEVICE_ID);
-        vccAds.adRequest(TAG, requestId, adIds, "1",
-                "https://soha.vn/tan-thuy-hoang-chet-nhu-the-nao-he-lo-3-nguyen-nhan-khong-chi-do-thuoc-truong-sinh-20211107234501608.htm",
-                "vcc.mobilenewsreader.sohanews",
+        vccAds.adRequest(TAG, requestId, adIds, "0",
+                "",
+                "",
                 "0");
 //        binding.btn.setOnClickListener(v -> {
-//            vccAds.adDisable(TAG, "1", "13991");
+//            vccAds.adDisable(TAG, "1", "");
 //        });
     }
 
