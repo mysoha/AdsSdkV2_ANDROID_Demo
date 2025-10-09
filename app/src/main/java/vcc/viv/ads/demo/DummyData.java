@@ -21,11 +21,11 @@ public interface DummyData {
     int FAKE_ITEM_VIEW_COUNT = 12;
 
     String AD_BANNER_ID = "13450";
-//    String AD_POPUP_ID = "13909";
+//    String AD_POPUP_ID = "14028";
 //    String AD_POPUP_ID = "13837";
     String AD_POPUP_ID = "13994";
-    String AD_CATFISH_ID = "13703";
-//    String AD_CATFISH_ID = "13991";
+//    String AD_CATFISH_ID = "13703";
+    String AD_CATFISH_ID = "13991";
 //    String AD_WELCOME_ID = "13676";
     String AD_WELCOME_ID = "14028";
     String AD_NON_IN_PAGE_ID = "5225";
