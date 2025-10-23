@@ -1,5 +1,6 @@
 package vcc.viv.ads.demo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,8 +58,8 @@ public class MainActivity extends BaseActivity implements DummyData {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        ViewGroup view = (ViewGroup) binding.getRoot();
         SharedPreferences modePreferences = getSharedPreferences(MODE_FILE_NAME, Context.MODE_PRIVATE);
         boolean nightMode = false;
         if(modePreferences != null) {
@@ -65,7 +70,12 @@ public class MainActivity extends BaseActivity implements DummyData {
         } else {
             setTheme(R.style.Theme_DarkMode);
         }
-        setContentView(view);
+        setContentView(binding.getRoot());
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (view, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         handler = new Handler(getMainLooper());
         snackbar = Snackbar.make(binding.getRoot(), "", Snackbar.LENGTH_INDEFINITE);
@@ -106,6 +116,7 @@ public class MainActivity extends BaseActivity implements DummyData {
         initSdk();
     }
 
+    @SuppressLint("GestureBackNavigation")
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -140,113 +151,89 @@ public class MainActivity extends BaseActivity implements DummyData {
     }
 
     private void basicHandle(MainAdapter.Data data) {
-        switch (data.info) {
-            case R.string.basic_banner:
-                if (!BuildConfig.BANNER) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                }
-                BasicActivity.starter(this, DummyData.AD_BANNER_ID);
-                break;
-            case R.string.basic_popup:
-                if (!BuildConfig.POPUP) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+        if (data.info == R.string.basic_banner) {
+            if (!BuildConfig.BANNER) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            }
+            BasicActivity.starter(this, DummyData.AD_BANNER_ID);
+        } else if (data.info == R.string.basic_popup) {
+            if (!BuildConfig.POPUP) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            } else {
                 BasicActivity.starter(this, DummyData.AD_POPUP_ID);
-                break;
-            case R.string.basic_in_page_default:
-                if (!BuildConfig.INPAGE) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+            }
+        } else if (data.info == R.string.basic_in_page_default) {
+            if (!BuildConfig.INPAGE) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            } else {
                 BasicActivity.starter(this, DummyData.AD_IN_PAGE_ID);
-                break;
-            case R.string.basic_in_page_non:
-                if (!BuildConfig.INPAGE) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+            }
+        } else if (data.info == R.string.basic_in_page_non) {
+            if (!BuildConfig.INPAGE) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            } else {
                 BasicActivity.starter(this, DummyData.AD_NON_IN_PAGE_ID);
-                break;
-            case R.string.basic_catfish:
-                if (!BuildConfig.CATFISH) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+            }
+        } else if (data.info == R.string.basic_catfish) {
+            if (!BuildConfig.CATFISH) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            } else {
                 BasicActivity.starter(this, DummyData.AD_CATFISH_ID);
-                break;
-            case R.string.basic_welcome:
-                if (!BuildConfig.WELCOME) {
-                    Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+            }
+        } else if (data.info == R.string.basic_welcome) {
+            if (!BuildConfig.WELCOME) {
+                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            } else {
                 BasicActivity.starter(this, DummyData.AD_WELCOME_ID);
-                break;
-            case R.string.basic_native_home:
-                BasicActivity.starter(this, DummyData.AD_NATIVE_HOME_ID);
-                break;
-            case R.string.basic_native_detail:
-                BasicActivity.starter(this, DummyData.AD_NATIVE_DETAIL_ID);
-            default:
-                Log.d(TAG, "basicHandle invalid type");
-                break;
+            }
+        } else if (data.info == R.string.basic_native_home) {
+            BasicActivity.starter(this, DummyData.AD_NATIVE_HOME_ID);
+        } else if (data.info == R.string.basic_native_detail) {
+            BasicActivity.starter(this, DummyData.AD_NATIVE_DETAIL_ID);
+        } else {
+            Log.d(TAG, "basicHandle invalid type");
         }
     }
 
     private void basicMix(MainAdapter.Data data) {
-        switch (data.info) {
-            case R.string.mix_scrollview:
-                ScrollActivity.starter(this);
-                break;
-            case R.string.mix_listview:
-                ListActivity.starter(this);
-                break;
-            case R.string.mix_visibility:
-                VisibilityActivity.starter(this);
-                break;
-            case R.string.mix_recyclerview:
-                RecyclerActivity.starter(this);
-                break;
-            case R.string.mix_recyclerviewhorizontal:
-                RecyclerHorizontalActivity.starter(this);
-                break;
-            case R.string.mix_view_pager:
-                ViewPagerActivity.starter(this);
-                break;
-            case R.string.mix_view_pager_test:
-                ViewPagerTestActivity.starter(this);
-                break;
-            default:
-                Log.d(TAG, "basicHandle invalid type");
-                break;
+        if (data.info == R.string.mix_scrollview) {
+            ScrollActivity.starter(this);
+        } else if (data.info == R.string.mix_listview) {
+            ListActivity.starter(this);
+        } else if (data.info == R.string.mix_visibility) {
+            VisibilityActivity.starter(this);
+        } else if (data.info == R.string.mix_recyclerview) {
+            RecyclerActivity.starter(this);
+        } else if (data.info == R.string.mix_recyclerviewhorizontal) {
+            RecyclerHorizontalActivity.starter(this);
+        } else if (data.info == R.string.mix_view_pager) {
+            ViewPagerActivity.starter(this);
+        } else if (data.info == R.string.mix_view_pager_test) {
+            ViewPagerTestActivity.starter(this);
+        } else {
+            Log.d(TAG, "basicHandle invalid type");
         }
     }
 
     private void browserHandle(MainAdapter.Data data) {
-        switch (data.info) {
-            case R.string.browser_form:
-            case R.string.browser_game:
-            case R.string.browser_ecommerce:
-                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
-                return;
-            case R.string.browser_livestream:
-                Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+        if (data.info == R.string.browser_form ||
+                data.info == R.string.browser_game ||
+                data.info == R.string.browser_ecommerce) {
+            Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
+            return;
+        } else if (data.info == R.string.browser_livestream) {
+            Snackbar.make(binding.getRoot(), "format not supported", Snackbar.LENGTH_SHORT).show();
 //                LiveStreamActivity.starter(this);
-                break;
-            default:
-                Log.d(TAG, "basicHandle invalid type");
-                break;
+        } else {
+            Log.d(TAG, "basicHandle invalid type");
         }
     }
 
     private void syntheticHandle(MainAdapter.Data data) {
-        switch (data.info) {
-            case R.string.synthetic_form:
-                FormActivity.starter(this);
-                break;
-            default:
-                Log.d(TAG, "basicHandle invalid type");
-                break;
+        if (data.info == R.string.synthetic_form) {
+            FormActivity.starter(this);
+        } else {
+            Log.d(TAG, "basicHandle invalid type");
         }
     }
 
